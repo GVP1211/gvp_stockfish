@@ -1,0 +1,32 @@
+name: gvp_stockfish
+description: "Stockfish for Flutter"
+version: 1.0.0
+homepage: https://github.com/gvp1211/gvp_stockfish
+
+environment:
+  sdk: ^3.7.0
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ffi: ^2.1.3
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  ffigen: ^13.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        ffiPlugin: true
+      ios:
+        ffiPlugin: true
+        sharedDarwinSource: true
+      macos:
+        ffiPlugin: true
+        sharedDarwinSource: true
+      linux:
+        ffiPlugin: true
+

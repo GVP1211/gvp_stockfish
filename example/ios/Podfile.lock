@@ -1,0 +1,23 @@
+PODS:
+  - Flutter (1.0.0)
+  - gvp_stockfish (0.0.3):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - gvp_stockfish (from `.symlinks/plugins/gvp_stockfish/darwin`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  gvp_stockfish:
+    :path: ".symlinks/plugins/gvp_stockfish/darwin"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  gvp_stockfish: d1409f68b411d758977b2bf33428509e48d53b93
+
+PODFILE CHECKSUM: ba0d7af98d1a0db7cbf744edd0331fd4de934cd6
+
+COCOAPODS: 1.16.2
