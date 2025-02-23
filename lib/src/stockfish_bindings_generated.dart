@@ -15,17 +15,16 @@ import 'dart:ffi' as ffi;
 class StockfishBindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   StockfishBindings(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   StockfishBindings.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
   void stockfish_init() {
     return _stockfish_init();
@@ -52,20 +51,27 @@ class StockfishBindings {
   }
 
   late final _stockfish_newPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
+    ffi.NativeFunction<
+      ffi.Void Function(
+        on_iter_callback,
+        on_update_no_moves_callback,
+        on_update_full_callback,
+        on_bestmove_callback,
+        on_print_info_string_callback,
+      )
+    >
+  >('stockfish_new');
+  late final _stockfish_new =
+      _stockfish_newPtr
+          .asFunction<
+            void Function(
               on_iter_callback,
               on_update_no_moves_callback,
               on_update_full_callback,
               on_bestmove_callback,
-              on_print_info_string_callback)>>('stockfish_new');
-  late final _stockfish_new = _stockfish_newPtr.asFunction<
-      void Function(
-          on_iter_callback,
-          on_update_no_moves_callback,
-          on_update_full_callback,
-          on_bestmove_callback,
-          on_print_info_string_callback)>();
+              on_print_info_string_callback,
+            )
+          >();
 
   void stockfish_delete() {
     return _stockfish_delete();
@@ -82,35 +88,31 @@ class StockfishBindings {
 
   late final _stockfish_uciPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>(
-          'stockfish_uci');
+        'stockfish_uci',
+      );
   late final _stockfish_uci =
       _stockfish_uciPtr.asFunction<ffi.Pointer<ffi.Char> Function()>();
 
-  void stockfish_setoption(
-    ffi.Pointer<ffi.Char> option,
-  ) {
-    return _stockfish_setoption(
-      option,
-    );
+  void stockfish_setoption(ffi.Pointer<ffi.Char> option) {
+    return _stockfish_setoption(option);
   }
 
   late final _stockfish_setoptionPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
-          'stockfish_setoption');
-  late final _stockfish_setoption = _stockfish_setoptionPtr
-      .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
+        'stockfish_setoption',
+      );
+  late final _stockfish_setoption =
+      _stockfish_setoptionPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
-  void stockfish_position(
-    ffi.Pointer<ffi.Char> token,
-  ) {
-    return _stockfish_position(
-      token,
-    );
+  void stockfish_position(ffi.Pointer<ffi.Char> token) {
+    return _stockfish_position(token);
   }
 
   late final _stockfish_positionPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
-          'stockfish_position');
+        'stockfish_position',
+      );
   late final _stockfish_position =
       _stockfish_positionPtr.asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
@@ -123,20 +125,16 @@ class StockfishBindings {
   late final _stockfish_ucinewgame =
       _stockfish_ucinewgamePtr.asFunction<void Function()>();
 
-  ffi.Pointer<ffi.Char> stockfish_go(
-    ffi.Pointer<ffi.Char> limits,
-  ) {
-    return _stockfish_go(
-      limits,
-    );
+  ffi.Pointer<ffi.Char> stockfish_go(ffi.Pointer<ffi.Char> limits) {
+    return _stockfish_go(limits);
   }
 
   late final _stockfish_goPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<ffi.Char>)>>('stockfish_go');
-  late final _stockfish_go = _stockfish_goPtr
-      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>();
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>
+  >('stockfish_go');
+  late final _stockfish_go =
+      _stockfish_goPtr
+          .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>();
 
   void stockfish_stop() {
     return _stockfish_stop();
@@ -156,55 +154,59 @@ class StockfishBindings {
       _stockfish_ponderhitPtr.asFunction<void Function()>();
 }
 
-typedef on_iter_callbackFunction = ffi.Void Function(
-    ffi.Int, ffi.Pointer<ffi.Char>, ffi.Size);
-typedef Darton_iter_callbackFunction = void Function(
-    int, ffi.Pointer<ffi.Char>, int);
-typedef on_iter_callback
-    = ffi.Pointer<ffi.NativeFunction<on_iter_callbackFunction>>;
-typedef on_update_no_moves_callbackFunction = ffi.Void Function(
-    ffi.Int, ffi.Pointer<ffi.Char>);
-typedef Darton_update_no_moves_callbackFunction = void Function(
-    int, ffi.Pointer<ffi.Char>);
-typedef on_update_no_moves_callback
-    = ffi.Pointer<ffi.NativeFunction<on_update_no_moves_callbackFunction>>;
-typedef on_update_full_callbackFunction = ffi.Void Function(
-    ffi.Int depth,
-    ffi.Pointer<ffi.Char> score,
-    ffi.Int selDepth,
-    ffi.Size multiPV,
-    ffi.Pointer<ffi.Char> wdl,
-    ffi.Pointer<ffi.Char> bound,
-    ffi.Size timeMs,
-    ffi.Size nodes,
-    ffi.Size nps,
-    ffi.Size tbHits,
-    ffi.Pointer<ffi.Char> pv,
-    ffi.Int hashfull);
-typedef Darton_update_full_callbackFunction = void Function(
-    int depth,
-    ffi.Pointer<ffi.Char> score,
-    int selDepth,
-    int multiPV,
-    ffi.Pointer<ffi.Char> wdl,
-    ffi.Pointer<ffi.Char> bound,
-    int timeMs,
-    int nodes,
-    int nps,
-    int tbHits,
-    ffi.Pointer<ffi.Char> pv,
-    int hashfull);
-typedef on_update_full_callback
-    = ffi.Pointer<ffi.NativeFunction<on_update_full_callbackFunction>>;
-typedef on_bestmove_callbackFunction = ffi.Void Function(
-    ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>);
-typedef Darton_bestmove_callbackFunction = void Function(
-    ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>);
-typedef on_bestmove_callback
-    = ffi.Pointer<ffi.NativeFunction<on_bestmove_callbackFunction>>;
-typedef on_print_info_string_callbackFunction = ffi.Void Function(
-    ffi.Pointer<ffi.Char>);
-typedef Darton_print_info_string_callbackFunction = void Function(
-    ffi.Pointer<ffi.Char>);
-typedef on_print_info_string_callback
-    = ffi.Pointer<ffi.NativeFunction<on_print_info_string_callbackFunction>>;
+typedef on_iter_callback =
+    ffi.Pointer<ffi.NativeFunction<on_iter_callbackFunction>>;
+typedef on_iter_callbackFunction =
+    ffi.Void Function(ffi.Int, ffi.Pointer<ffi.Char>, ffi.Size);
+typedef Darton_iter_callbackFunction =
+    void Function(int, ffi.Pointer<ffi.Char>, int);
+typedef on_update_no_moves_callback =
+    ffi.Pointer<ffi.NativeFunction<on_update_no_moves_callbackFunction>>;
+typedef on_update_no_moves_callbackFunction =
+    ffi.Void Function(ffi.Int, ffi.Pointer<ffi.Char>);
+typedef Darton_update_no_moves_callbackFunction =
+    void Function(int, ffi.Pointer<ffi.Char>);
+typedef on_update_full_callback =
+    ffi.Pointer<ffi.NativeFunction<on_update_full_callbackFunction>>;
+typedef on_update_full_callbackFunction =
+    ffi.Void Function(
+      ffi.Int depth,
+      ffi.Pointer<ffi.Char> score,
+      ffi.Int selDepth,
+      ffi.Size multiPV,
+      ffi.Pointer<ffi.Char> wdl,
+      ffi.Pointer<ffi.Char> bound,
+      ffi.Size timeMs,
+      ffi.Size nodes,
+      ffi.Size nps,
+      ffi.Size tbHits,
+      ffi.Pointer<ffi.Char> pv,
+      ffi.Int hashfull,
+    );
+typedef Darton_update_full_callbackFunction =
+    void Function(
+      int depth,
+      ffi.Pointer<ffi.Char> score,
+      int selDepth,
+      int multiPV,
+      ffi.Pointer<ffi.Char> wdl,
+      ffi.Pointer<ffi.Char> bound,
+      int timeMs,
+      int nodes,
+      int nps,
+      int tbHits,
+      ffi.Pointer<ffi.Char> pv,
+      int hashfull,
+    );
+typedef on_bestmove_callback =
+    ffi.Pointer<ffi.NativeFunction<on_bestmove_callbackFunction>>;
+typedef on_bestmove_callbackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>);
+typedef Darton_bestmove_callbackFunction =
+    void Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>);
+typedef on_print_info_string_callback =
+    ffi.Pointer<ffi.NativeFunction<on_print_info_string_callbackFunction>>;
+typedef on_print_info_string_callbackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Char>);
+typedef Darton_print_info_string_callbackFunction =
+    void Function(ffi.Pointer<ffi.Char>);

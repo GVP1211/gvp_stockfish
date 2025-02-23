@@ -15,18 +15,22 @@ class GvpStockfish {
   static GvpStockfish? _instance = null;
 
   GvpStockfish._() {
-    _onIterCallable =
-        NativeCallable<on_iter_callbackFunction>.listener(_onIter);
+    _onIterCallable = NativeCallable<on_iter_callbackFunction>.listener(
+      _onIter,
+    );
     _onUpdateNoMovesCallable =
         NativeCallable<on_update_no_moves_callbackFunction>.listener(
-            _onUpdateNoMoves);
+          _onUpdateNoMoves,
+        );
     _onUpdateFullCallable =
         NativeCallable<on_update_full_callbackFunction>.listener(_onUpdateFull);
-    _onBestMoveCallable =
-        NativeCallable<on_bestmove_callbackFunction>.listener(_onBestMove);
+    _onBestMoveCallable = NativeCallable<on_bestmove_callbackFunction>.listener(
+      _onBestMove,
+    );
     _onPrintInfoStringCallable =
         NativeCallable<on_print_info_string_callbackFunction>.listener(
-            _onPrintInfoString);
+          _onPrintInfoString,
+        );
   }
 
   static get instance {
@@ -35,11 +39,11 @@ class GvpStockfish {
 
   late NativeCallable<on_iter_callbackFunction> _onIterCallable;
   late NativeCallable<on_update_no_moves_callbackFunction>
-      _onUpdateNoMovesCallable;
+  _onUpdateNoMovesCallable;
   late NativeCallable<on_update_full_callbackFunction> _onUpdateFullCallable;
   late NativeCallable<on_bestmove_callbackFunction> _onBestMoveCallable;
   late NativeCallable<on_print_info_string_callbackFunction>
-      _onPrintInfoStringCallable;
+  _onPrintInfoStringCallable;
 
   late StreamController<InfoBase> _streamController;
 
@@ -160,9 +164,7 @@ class GvpStockfish {
   }
 
   void _onPrintInfoString(Pointer<Char> print) {
-    var info = InfoPrintInfoString(
-      info: print.cast<Utf8>().toDartString(),
-    );
+    var info = InfoPrintInfoString(info: print.cast<Utf8>().toDartString());
     calloc.free(print);
     _streamController.add(info);
   }

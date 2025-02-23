@@ -1,6 +1,6 @@
 name: gvp_stockfish
 description: "Stockfish for Flutter"
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/gvp1211/gvp_stockfish
 
 environment:

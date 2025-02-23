@@ -1,4 +1,5 @@
 # Stockfish for Flutter
+A Flutter plugin for integrating the Stockfish chess engine into your apps. Unlike traditional methods that rely on stdin/stdout for communication, this plugin takes a different approach by directly invoking the engine.
 # Usage
 ```dart
 import 'package:gvp_stockfish/gvp_stockfish.dart' as sf;

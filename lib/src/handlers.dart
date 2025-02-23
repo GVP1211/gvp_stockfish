@@ -30,7 +30,7 @@ class _New extends _RequestBase {
   Pointer<NativeFunction<on_update_full_callbackFunction>> onUpdateFull;
   Pointer<NativeFunction<on_bestmove_callbackFunction>> onBestMove;
   Pointer<NativeFunction<on_print_info_string_callbackFunction>>
-      onPrintInfoString;
+  onPrintInfoString;
 
   _New({
     required this.onIter,
@@ -73,7 +73,7 @@ class _StopResponse extends _ResponseBase {
   _StopResponse(super.id);
 }
 
-_StopResponse _stop(_Delete request) {
+_StopResponse _stop(_Stop request) {
   _bindings.stockfish_stop();
   return _StopResponse(request.id);
 }
