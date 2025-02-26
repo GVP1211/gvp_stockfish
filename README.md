@@ -38,3 +38,7 @@ main() async {
   await gvp.go('depth 10');
 }
 ```
+
+### License
+Source code for the plugin is licensed under MIT license.
+Unmodifed Stockfish source code is included in ./darwin/Stockfish and licensed under GPL.
